@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+      }
+
+      window.onload = () => {
+        const tortureStatus = document.getElementById("torture-status")
+        const tortureToggle = document.getElementById("torture-toggle")
+        const audioPlayer = document.getElementById("main-audio")
+
+        let tortureRunning = false
+        tortureToggle.addEventListener('click', () => {
+          tortureRunning = !tortureRunning
+          tortureStatus.innerHTML = tortureRunning ? "Active" : "Inactive"
+        })
+
+        audioPlayer.addEventListener('ended', async () => {
+          if (tortureRunning) {
+            const randomDelay = Math.random() * 1_000_000
+            await sleep(randomDelay)
+            audioPlayer.play()
+          }
+        })
+      }
+    </script>
+  </head>
+  <body>
+    <h2>Torture Status:</h2>
+    <h2 id="torture-status">Inactive</h2>
+    <button id="torture-toggle">Toggle Torture</button>
+    <audio id="main-audio"
+      controls
+      src="./megalovania-4-notes.mp3">
+        Your browser does not support the
+        <code>audio</code> element.
+    </audio>
+  </body>
+</html>
